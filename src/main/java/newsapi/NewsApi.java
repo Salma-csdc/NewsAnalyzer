@@ -2,6 +2,7 @@ package newsapi;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import newsanalyzer.ctrl.AnalyserExceptions;
 import newsapi.beans.NewsReponse;
 import newsapi.enums.*;
 
@@ -104,16 +105,22 @@ public class NewsApi {
         this.endpoint = endpoint;
     }
 
-    protected String requestData() {
+    protected String requestData() throws MalformedURLException, AnalyserExceptions {
         String url = buildURL();
         System.out.println("URL: "+url);
         URL obj = null;
+        obj = new URL(url);
+
+        /* for own error handling message
         try {
             obj = new URL(url);
         } catch (MalformedURLException e) {
-            // TOOO improve ErrorHandling
+            // TOOO improve ErrorHandling                                                   //  ?????????????
             e.printStackTrace();
+
         }
+        */
+
         HttpURLConnection con;
         StringBuilder response = new StringBuilder();
         try {
@@ -131,8 +138,12 @@ public class NewsApi {
         return response.toString();
     }
 
-    protected String buildURL() {
+    protected String buildURL() throws AnalyserExceptions, MalformedURLException {
         // TODO ErrorHandling
+        if(getApiKey().equals("") || getQ().equals("")){
+            throw new MalformedURLException();
+        }
+
         String urlbase = String.format(NEWS_API_URL,getEndpoint().getValue(),getQ(),getApiKey());
         StringBuilder sb = new StringBuilder(urlbase);
 
@@ -172,7 +183,7 @@ public class NewsApi {
         return sb.toString();
     }
 
-    public NewsReponse getNews() {
+    public NewsReponse getNews() throws IOException, AnalyserExceptions {
         NewsReponse newsReponse = null;
         String jsonResponse = requestData();
         if(jsonResponse != null && !jsonResponse.isEmpty()){
@@ -184,11 +195,12 @@ public class NewsApi {
                     System.out.println("Error: "+newsReponse.getStatus());
                 }
             } catch (JsonProcessingException e) {
-                System.out.println("Error: "+e.getMessage());
+                throw new AnalyserExceptions("Json-String fehlerhaft.");                        // Json hinnig
+                //System.out.println("Error: "+e.getMessage());
             }
         }
         //TODO improve Errorhandling
+        System.out.println("Error at JsonResponse.");
         return newsReponse;
     }
 }
-

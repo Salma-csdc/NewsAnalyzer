@@ -4,29 +4,99 @@ package newsanalyzer.ui;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.nio.charset.MalformedInputException;
+import java.security.DomainCombiner;
 
+import newsanalyzer.ctrl.AnalyserExceptions;
 import newsanalyzer.ctrl.Controller;
+import newsapi.NewsApi;
+import newsapi.NewsApiBuilder;
+import newsapi.enums.Category;
+import newsapi.enums.Country;
+import newsapi.enums.Endpoint;
+
+import javax.xml.transform.Source;
+
 
 public class UserInterface 
 {
-
 	private Controller ctrl = new Controller();
 
 	public void getDataFromCtrl1(){
 		System.out.println("ABC");
-
-		ctrl.process();
+		NewsApi newsApi = new NewsApiBuilder()
+				.setApiKey(Controller.APIKEY)
+				.setQ("technology")
+				.setEndPoint(Endpoint.TOP_HEADLINES)
+				.setDomains("com")									// geht das so?
+				//.setSourceCountry(Country.at)
+				.setSourceCategory(Category.technology)
+				.createNewsApi();
+		try{
+			ctrl.process(newsApi);									// damit ichs in der Klasse Controller übernehmen/ aufrufen kann
+		}
+		catch(AnalyserExceptions e) {
+			System.out.println(e.getMessage());
+		}
+		catch(MalformedURLException e){
+			System.out.println("URL falsch");
+		}
+		catch(IOException e){
+			System.out.println("IOException- unbekannter Fehler");
+		}
 	}
 
 	public void getDataFromCtrl2(){
+		System.out.println("DEF");
+		NewsApi newsApi = new NewsApiBuilder()
+				.setApiKey(Controller.APIKEY)
+				.setQ("corona")
+				.setEndPoint(Endpoint.TOP_HEADLINES)
+				.setSourceCountry(Country.at)
+				.setSourceCategory(Category.health)
+				.createNewsApi();
+
+		try{
+			ctrl.process(newsApi);									// damit ichs in der Klasse Controller übernehmen/ aufrufen kann
+		}
+		catch(AnalyserExceptions e) {
+			System.out.println(e.getMessage());
+		}
+		catch(MalformedURLException e){
+			System.out.println("URL falsch");
+		}
+		catch(IOException e){
+			System.out.println("IOException- unbekannter Fehler");
+		}
 	}
 
 	public void getDataFromCtrl3(){
+		System.out.println("3");
+		NewsApi newsApi = new NewsApiBuilder()
+				.setApiKey(Controller.APIKEY)
+				.setQ("sports")
+				.setEndPoint(Endpoint.TOP_HEADLINES)
+				.setSourceCountry(Country.ch)
+				.setSourceCategory(Category.sports)
+				.createNewsApi();
 
+		try{
+			ctrl.process(newsApi);									// damit ichs in der Klasse Controller übernehmen/ aufrufen kann
+		}
+		catch(AnalyserExceptions e) {
+			System.out.println(e.getMessage());
+		}
+		catch(MalformedURLException e){
+			System.out.println("URL falsch");
+		}
+		catch(IOException e){
+			System.out.println("IOException- unbekannter Fehler");
+		}
 	}
 	
 	public void getDataForCustomInput() {
-		
+		System.out.println("User Imput:");
 	}
 
 
@@ -44,6 +114,9 @@ public class UserInterface
 		}
 		System.out.println("Program finished");
 	}
+
+
+
 
 
     protected String readLine() {
