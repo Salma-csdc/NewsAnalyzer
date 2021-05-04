@@ -77,4 +77,5 @@ public class Menu<T> {
 	public String toString() {
 		return getTitel();
 	}
+
 }

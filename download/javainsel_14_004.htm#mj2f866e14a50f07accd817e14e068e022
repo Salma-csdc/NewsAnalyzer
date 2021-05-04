@@ -1,0 +1,937 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Rheinwerk Computing :: Java ist auch eine Insel – 14.4 Der Ausführer (Executor) kommt</title>
+<meta name="title" content="Rheinwerk Computing :: Java ist auch eine Insel - 14.4 Der Ausführer (Executor) kommt">
+<meta name="author" content="Christian Ullenboom ">
+<meta name="publisher" content="Rheinwerk Verlag GmbH 2011">
+<meta name="copyright" content="Rheinwerk Verlag GmbH 2011">
+<meta name="Description" content="Java ist auch eine Insel - Das umfassende Handbuch – 14.4 Der Ausführer (Executor) kommt">
+<meta name="audience" content="Alle">
+<meta name="robots" content="INDEX,FOLLOW">
+<meta http-equiv="content-language" content="de">
+<link rel="stylesheet" type="text/css" href="common/rw_open.css">
+<link rel="prev" href=".htm">
+<link rel="next" href=".htm"><script type="text/javascript"><!--
+    function OpenWin(url,name,height,width)
+    {
+      var InfoWin = window.open(url,name,"directories=0,height="+height+",width=" + width + ",hotkeys=0,location=0,menubar=0,resizable=1,screenX=150,screenY=10,left=150,top=10,scrollbars=1,status=1,titlebar=0,toolbar=0");
+      InfoWin.focus();
+    }
+    //--></script><link href="common/prettify.css" type="text/css" rel="stylesheet"><script type="text/javascript" src="common/prettify.js"></script><script id="openbookScript" charset="UTF-8" src="https://static.rheinwerk-verlag.de/js/openbook.js "></script><style>.cookie-banner-confirm .main-option { font-size: 100% !important; } .show-consent-banner { cursor: pointer; }</style>
+</head>
+<body vlink="#000099" link="#000099" alink="#000099" onload="prettyPrint()">
+
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#00549d">
+<tr>
+<td height="74" valign="bottom" colspan="2"><a href="https://www.rheinwerk-verlag.de/katalog/openbook?GPP=openbook"><img src="common/rw_openbook.gif" width="200" height="56" border="0" alt="Rheinwerk Computing < openbook >" title="Rheinwerk Computing < openbook >"></a></td>
+<td width="80" height="74"><a href="https://www.rheinwerk-verlag.de/?GPP=openbook"><img src="common/rw_computing.gif" border="0" alt="Rheinwerk Computing - Professionelle Bücher. Auch für Einsteiger." title="Rheinwerk Computing - Professionelle Bücher. Auch für Einsteiger."></a></td>
+</tr>
+</table>
+<div align="right"><a href="https://www.rheinwerk-verlag.de/?GPP=openbook" class="navnav">Professionelle Bücher. Auch für Einsteiger.</a></div><br><table class="tbl" border="0" cellpadding="0" cellspacing="0" width="100%">
+<tr>
+<td width="190" valign="top">
+<table class="tbl1" border="0" cellpadding="3" cellspacing="0" width="190" align="left">
+<tr>
+<td class="tbl2"><a class="nav" href="index.htm#_top">Inhaltsverzeichnis</a></td>
+</tr>
+<tr>
+<td><a class="navnav" href="javainsel_00_001.htm#mj58b119301920569a446c9c510503f310">Vorwort</a></td>
+</tr>
+<tr>
+<td><a class="navnav" href="javainsel_01_001.htm#mja8fc5b7ad19fc7332bc66b09a8fda26e">1 Java ist auch eine Sprache</a></td>
+</tr>
+<tr>
+<td><a class="navnav" href="javainsel_02_001.htm#mj313f67c98dc9ecaddfa2d8b80f057fd2">2 Sprachbeschreibung</a></td>
+</tr>
+<tr>
+<td><a class="navnav" href="javainsel_03_001.htm#mjcd3b5720e8605484942e3476a1075bdf">3 Klassen und Objekte</a></td>
+</tr>
+<tr>
+<td><a class="navnav" href="javainsel_04_001.htm#mj71fbc84ad33a281b9352b0b19fae2fb2">4 Der Umgang mit Zeichenketten</a></td>
+</tr>
+<tr>
+<td><a class="navnav" href="javainsel_05_001.htm#mj005cd8e604aefc3ae72b92880fcee5c6">5 Eigene Klassen schreiben</a></td>
+</tr>
+<tr>
+<td><a class="navnav" href="javainsel_06_001.htm#mj6f6b47453043c38837bfc32154a97968">6 Exceptions</a></td>
+</tr>
+<tr>
+<td><a class="navnav" href="javainsel_07_001.htm#mjc4a1f6f3499a02fb64fe89046739edca">7 Generics&lt;T&gt;</a></td>
+</tr>
+<tr>
+<td><a class="navnav" href="javainsel_08_001.htm#mj46e914488628367f5dfc0a62c3a78a53">8 Äußere.innere Klassen</a></td>
+</tr>
+<tr>
+<td><a class="navnav" href="javainsel_09_001.htm#mj94af2b90e8a2dad6c1ef67255f89a137">9 Besondere Klassen der Java SE</a></td>
+</tr>
+<tr>
+<td><a class="navnav" href="javainsel_10_001.htm#mjcae20f50ffbc015d0b66861e7087af9b">10 Architektur, Design und angewandte Objektorientierung</a></td>
+</tr>
+<tr>
+<td><a class="navnav" href="javainsel_11_001.htm#mj60bc6a007ae9b8657949f3e91d96df3d">11 Die Klassenbibliothek</a></td>
+</tr>
+<tr>
+<td><a class="navnav" href="javainsel_12_001.htm#mj0ce00eb41aae2b084534019cf6edc3b6">12 Bits und Bytes und Mathematisches</a></td>
+</tr>
+<tr>
+<td><a class="navnav" href="javainsel_13_001.htm#mj245f5f8d5a858b46462d64e9b9c0786b">13 Datenstrukturen und Algorithmen</a></td>
+</tr>
+<tr>
+<td><a class="navh" href="javainsel_14_001.htm#mj8c6f381221d805dd6fbe480731ac0c58">14 Threads und nebenläufige Programmierung</a></td>
+</tr>
+<tr>
+<td><a class="navnav" href="javainsel_15_001.htm#mjbe3ed0989722396930966f95deeb2497">15 Raum und Zeit</a></td>
+</tr>
+<tr>
+<td><a class="navnav" href="javainsel_16_001.htm#mj78bd405fb0de0cff099c06255fe36853">16 Dateien, Verzeichnisse und Dateizugriffe</a></td>
+</tr>
+<tr>
+<td><a class="navnav" href="javainsel_17_001.htm#mjb420b02f4ccf65226f7271e48cefa05d">17 Datenströme</a></td>
+</tr>
+<tr>
+<td><a class="navnav" href="javainsel_18_001.htm#mjedab16f1a9cc168eda4a24416359e0b9">18 Die eXtensible Markup Language (XML)</a></td>
+</tr>
+<tr>
+<td><a class="navnav" href="javainsel_19_001.htm#mjc8f47f7f51ac3795c46c4544f391b02e">19 Grafische Oberflächen mit Swing</a></td>
+</tr>
+<tr>
+<td><a class="navnav" href="javainsel_20_001.htm#mj25cc7d47e476b8b1a183a10ee741dbaa">20 Grafikprogrammierung</a></td>
+</tr>
+<tr>
+<td><a class="navnav" href="javainsel_21_001.htm#mjea7bcdd596c8bd25b078a00221a01a75">21 Netzwerkprogrammierung</a></td>
+</tr>
+<tr>
+<td><a class="navnav" href="javainsel_22_001.htm#mjde622db61608a627262a27ecb377d675">22 Verteilte Programmierung mit RMI</a></td>
+</tr>
+<tr>
+<td><a class="navnav" href="javainsel_23_001.htm#mj23bf599d65364bcd05d06a34cb5593bf">23 JavaServer Pages und Servlets</a></td>
+</tr>
+<tr>
+<td><a class="navnav" href="javainsel_24_001.htm#mja621f3b4a74c7fa576b4a58b1614041e">24 Datenbankmanagement mit JDBC</a></td>
+</tr>
+<tr>
+<td><a class="navnav" href="javainsel_25_001.htm#mja2e217bf5724cc65eba184a2af8b79cf">25 Reflection und Annotationen</a></td>
+</tr>
+<tr>
+<td><a class="navnav" href="javainsel_26_001.htm#mjb47dd6e0a309b7e78cad68f6b5de9319">26 Dienstprogramme für die Java-Umgebung</a></td>
+</tr>
+<tr>
+<td><a class="navnav" href="javainsel_27_001.htm#mjf59db36d9280a70e0d3d196e9bf160f5">A Die Begleit-DVD</a></td>
+</tr>
+<tr>
+<td><a class="navnav" href="stichwort.htm#_top">Stichwort</a></td>
+</tr>
+<!--<tr>
+<td><br><a href="http://download2.galileo-press.de/openbook/galileocomputing_javainsel9.zip" class="navnav"><strong>Download:</strong><br>- ZIP, ca. 20,5 MB</a></td>
+</tr>-->
+<!--<tr><td><br><a href="https://www.rheinwerk-verlag.de/java-ist-auch-eine-insel_3606/?GPP=openbook" class="navnav">Buch bestellen</a></td></tr>-->
+<tr>
+<td><a class="navnav" href="#kommentar">Ihre Meinung?</a><br><br></td>
+</tr>
+</table>
+</td>
+<td width="10"><img src="common/spacer10.gif" width="10" height="10" alt="Spacer"></td>
+<td width="85%" valign="top" align="center"><div align="center">
+<table width="98%" border="0" cellspacing="0" cellpadding="0" bgcolor="#FFFFFF">
+<tr>
+<td width="100%" class="start" colspan="1" height="22" align="center"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="25%"><a href="javainsel_14_003.htm" class="navnav"> &lt;&lt;   zurück</a></td>
+<td width="49%"><div align="center"><a href="https://www.rheinwerk-verlag.de/?GPP=openbook" class="navnav">Rheinwerk Computing /</a><a href="https://www.rheinwerk-verlag.de/openbook/?GPP=openbook" class="navnav"> &lt;openbook&gt; /</a><a href="index.htm" class="navnav"> Java-Insel</a></div></td>
+<td align="right" width="25%"><div align="right"><a href="javainsel_14_005.htm" class="navnav">vor   &gt;&gt; </a></div></td>
+</tr>
+</table></td>
+</tr>
+<tr>
+<td width="100%" valign="top"><table width="100%" border="0" cellpadding="10" cellspacing="0" class="box">
+<tr>
+<td colspan="2"><a href="https://www.rheinwerk-verlag.de/java-ist-auch-eine-insel_3606/?GPP=openbook" class="buchtitel">Java ist auch eine Insel</a><span class="autor"> von Christian Ullenboom </span><br><span class="untertitel">Das umfassende Handbuch</span></td>
+</tr>
+<tr>
+<td valign="top" width="211"><dl>
+<dt><a href="https://www.rheinwerk-verlag.de/java-ist-auch-eine-insel_3606/?GPP=openbook" class="navnav"><img src="common/9783836215060.gif" border="0" alt="Buch: Java ist auch eine Insel" title="Buch: Java ist auch eine Insel"></a></dt>
+<dd><br><a href="https://www.rheinwerk-verlag.de/java-ist-auch-eine-insel_3606/?GPP=openbook"><span class="autor"><strong>Java ist auch eine Insel</strong><br>geb., mit DVD<br>1482 S., 49,90 Euro<br>Rheinwerk Computing<br>ISBN 978-3-8362-1506-0</span></a></dd>
+</dl></td>
+<td width="80%"><table border="0">
+<tr>
+<td valign="baseline"><img src="common/pfeil_u.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline" colspan="3" class="kap"><strong><a href="javainsel_14_001.htm#mj8c6f381221d805dd6fbe480731ac0c58" class="navnav">14 Threads und nebenläufige Programmierung</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline" colspan="2"><strong><a href="javainsel_14_001.htm#mjbc08c9ba7fdf2e6f67fc98569de436d7" class="navnav">14.1 Nebenläufigkeit</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="javainsel_14_001.htm#mj43de7374f351a9fba442f8d3b0f02d3e" class="navnav">14.1.1 Threads und Prozesse</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="javainsel_14_001.htm#mja9c21f6c79bc59a950217decf528edb6" class="navnav">14.1.2 Wie parallele Programme die Geschwindigkeit steigern können</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="javainsel_14_001.htm#mj5562a2faec24834d623c76125dc07ce4" class="navnav">14.1.3 Was Java für Nebenläufigkeit alles bietet</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline" colspan="2"><strong><a href="javainsel_14_002.htm#mj45ef6b526108a654e748170e45b47506" class="navnav">14.2 Threads erzeugen</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="javainsel_14_002.htm#mjd345a92a4debb2b6c1b71c9da5491844" class="navnav">14.2.1 Threads über die Schnittstelle Runnable implementieren</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="javainsel_14_002.htm#mj0165190038369a99536f97f8344a85aa" class="navnav">14.2.2 Thread mit Runnable starten</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="javainsel_14_002.htm#mj8e1e70be702a313131e53009a9232b14" class="navnav">14.2.3 Die Klasse Thread erweitern</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline" colspan="2"><strong><a href="javainsel_14_003.htm#mjd0f19999270d6e1fbfd4af3a16273eef" class="navnav">14.3 Thread-Eigenschaften und -Zustände</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="javainsel_14_003.htm#mj3a1cfb56f9c6901e615807d90a0beec7" class="navnav">14.3.1 Der Name eines Threads</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="javainsel_14_003.htm#mj35593f9059cd12233d0f6ecc9d1eabbc" class="navnav">14.3.2 Wer bin ich?</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="javainsel_14_003.htm#mj06ce248fe2000330b7f17e9b7547230b" class="navnav">14.3.3 Die Zustände eines Threads *</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="javainsel_14_003.htm#mj00ef8d8369b2f161f338e0395d2d3375" class="navnav">14.3.4 Schläfer gesucht</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="javainsel_14_003.htm#mjc55c89ec9366f4b8fdd423c85d3794c1" class="navnav">14.3.5 Mit »yield()« auf Rechenzeit verzichten</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="javainsel_14_003.htm#mj2fe030afd882ac6fb143b967926afdfa" class="navnav">14.3.6 Der Thread als Dämon</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="javainsel_14_003.htm#mj164ad9b22305873b9aa42eea993c3092" class="navnav">14.3.7 Das Ende eines Threads</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="javainsel_14_003.htm#mj4193c6da30b5a3e9d41c167ec04d571f" class="navnav">14.3.8 Einen Thread höflich mit Interrupt beenden</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="javainsel_14_003.htm#mj33fd0981eb8001536afe69cd515aa912" class="navnav">14.3.9 »UncaughtExceptionHandler« für unbehandelte Ausnahmen</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="javainsel_14_003.htm#mjaa35fb508fd076484f1fe6f102542192" class="navnav">14.3.10 Der »stop()« von außen und die Rettung mit ThreadDeath *</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="javainsel_14_003.htm#mj4d4380c02798d72c9129099992a3f7c1" class="navnav">14.3.11 Ein Rendezvous mit »join()« *</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="javainsel_14_003.htm#mj0fba9714c2dc96c5fdda5b22e6123a91" class="navnav">14.3.12 Arbeit niederlegen und wieder aufnehmen *</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="javainsel_14_003.htm#mjb80d2e0bed313429e1cc31b6b5533932" class="navnav">14.3.13 Priorität *</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline" colspan="2"><strong><a href="#mj2f866e14a50f07accd817e14e068e022" class="navh">14.4 Der Ausführer (Executor) kommt</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="#mjfdf7295f7b164c526b7e2bcc93c82c77" class="navh">14.4.1 Die Schnittstelle »Executor«</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="#mje4f944bb971775c1015afd48aaa0f8fd" class="navh">14.4.2 Die Thread-Pools</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="#mj1b2390839194e0171bbe333adf513efb" class="navh">14.4.3 Threads mit Rückgabe über Callable</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="#mj216a6d7dc56854a7c2ace2af15ea7538" class="navh">14.4.4 Mehrere Callable abarbeiten</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="#mj040a06e4da6875dc988daed0e6698a0e" class="navh">14.4.5 Mit ScheduledExecutorService wiederholende Ausgaben und Zeitsteuerungen</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline" colspan="2"><strong><a href="javainsel_14_005.htm#mjdd7f4718142f506c26dd21b125c3eeb9" class="navnav">14.5 Synchronisation über kritische Abschnitte</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="javainsel_14_005.htm#mj0b86165a201ae570714e286c068b2481" class="navnav">14.5.1 Gemeinsam genutzte Daten</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="javainsel_14_005.htm#mjfffb7cafaea36a3ca8312390e06292da" class="navnav">14.5.2 Probleme beim gemeinsamen Zugriff und kritische Abschnitte</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="javainsel_14_005.htm#mjc042126cea52cb31673bce1b51e7da34" class="navnav">14.5.3 Punkte parallel initialisieren</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="javainsel_14_005.htm#mj93dd1d204a3132119782b90b9d2a8b91" class="navnav">14.5.4 »i++« sieht atomar aus, ist es aber nicht *</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="javainsel_14_005.htm#mj9311fe1d3b8eab7542264c02d389dd2f" class="navnav">14.5.5 Kritische Abschnitte schützen</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="javainsel_14_005.htm#mj56cc8d74bdebad1074cc9c5a8010bf9b" class="navnav">14.5.6 Schützen mit ReentrantLock</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="javainsel_14_005.htm#mj1bb85cdbf7de3e53c2f4909006721fe5" class="navnav">14.5.7 Synchronisieren mit »synchronized«</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="javainsel_14_005.htm#mjcd4b04f6e98c720091cfe986e6ffbbcd" class="navnav">14.5.8 Synchronized-Methoden der Klasse »StringBuffer« *</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="javainsel_14_005.htm#mj06c1e7e183ad53dff9ca9f5f31845549" class="navnav">14.5.9 Mit synchronized synchronisierte Blöcke</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="javainsel_14_005.htm#mj7dbd0ab9bb5f9d276c324109e3fca0e5" class="navnav">14.5.10 Dann machen wir doch gleich alles synchronisiert!</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="javainsel_14_005.htm#mj7f86c2fcc6f66725145007cbca98aa8f" class="navnav">14.5.11 Lock-Freigabe im Fall von Exceptions</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="javainsel_14_005.htm#mj835189eac360de56887ed92c5c4ecde5" class="navnav">14.5.12 Deadlocks</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="javainsel_14_005.htm#mjac6b857b6e9b19e0ddd6f7047deb1927" class="navnav">14.5.13 Mit »synchronized« nachträglich synchronisieren *</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="javainsel_14_005.htm#mjef386e0ad0e4f81d20c24fc7013063a6" class="navnav">14.5.14 Monitore sind reentrant &#8211; gut für die Geschwindigkeit *</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="javainsel_14_005.htm#mj971b2acd022777011b0152eaa4837a24" class="navnav">14.5.15 Synchronisierte Methodenaufrufe zusammenfassen *</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline" colspan="2"><strong><a href="javainsel_14_006.htm#mj9bf9f420b34b6f02276dafd31a8fd050" class="navnav">14.6 Synchronisation über Warten und Benachrichtigen</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="javainsel_14_006.htm#mje2b58ede047a8963da930acab3fa6052" class="navnav">14.6.1 Die Schnittstelle »Condition«</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="javainsel_14_006.htm#mjc38ef5b969bd2691779c81805b6c2a7c" class="navnav">14.6.2 It&#8217;s Disco-Time *</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="javainsel_14_006.htm#mj0ba218bd2eaf4ea985fe997b1df29eff" class="navnav">14.6.3 Warten mit »wait()« und Aufwecken mit »notify()« *</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="javainsel_14_006.htm#mj136bf82444e4726887b78ff7e2940dcb" class="navnav">14.6.4 Falls der Lock fehlt: IllegalMonitorStateException *</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline" colspan="2"><strong><a href="javainsel_14_007.htm#mj4145d5f8cf91e93d1d41e573c3d11ccc" class="navnav">14.7 Zeitgesteuerte Abläufe</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="javainsel_14_007.htm#mjb1126ef61ae8b4987d341b8b5ca908bb" class="navnav">14.7.1 Die Klassen »Timer« und »TimerTask«</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline"><strong><a href="javainsel_14_007.htm#mjf6968022d786735ff347cc7539d4a5cc" class="navnav">14.7.2 Job-Scheduler Quartz</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline" colspan="2"><strong><a href="javainsel_14_008.htm#mjd6f266fe3a93d82ea877896fff494d12" class="navnav">14.8 Einen Abbruch der virtuellen Maschine erkennen</a></strong></td>
+</tr>
+<tr>
+<td valign="baseline" width="10"> </td>
+<td valign="baseline" width="10"><img src="common/pfeil_rechts5.gif" width="10" height="10" border="0" alt="Pfeil"></td>
+<td valign="baseline" colspan="2"><strong><a href="javainsel_14_009.htm#mj97bf64dc1952296836c473e63db84371" class="navnav">14.9 Zum Weiterlesen</a></strong></td>
+</tr>
+</table><br></td>
+</tr>
+</table>
+<table width="100%" cellpadding="20" cellspacing="0" border="0" bgcolor="#eeeeee">
+<tr>
+<td><div class="main"><a id="mj2f866e14a50f07accd817e14e068e022" name="mj2f866e14a50f07accd817e14e068e022"></a><a name="t21"></a><a name="t2t31"></a><br><div align="center"><a href="#top"><img src="common/top.gif" border="0" alt="Rheinwerk Computing - Zum Seitenanfang"></a></div>
+<h2 class="t2"><span class="cfett">14.4</span> Der Ausführer (Executor) kommt  <a href="#t2t32"><img src="common/down.gif" width="15" height="15" border="0" alt="Zur nächsten Überschrift"></a><img src="common/15x15leer.gif" width="15" height="15" border="0" alt="Zur vorigen Überschrift"></h2>
+<p>Zur parallelen Ausführung eines <span class="clisting">Runnable</span> ist immer ein Thread notwendig. Obwohl die nebenläufige Abarbeitung von Programmcode ohne Threads nicht möglich ist, sind doch beide sehr stark verbunden, und es wäre gut, wenn das <span class="clisting">Runnable</span> vom tatsächlichen abarbeitenden Thread etwas getrennt wäre. Das hat mehrere Gründe:</p>
+<ul class="gp">
+<li>Schon beim Erzeugen eines <span class="clisting">Thread</span>-Objekts muss das <span class="clisting">Runnable</span>-Objekt im <span class="clisting">Thread</span>-Konstruktor übergeben werden. Es ist nicht möglich, das <span class="clisting">Thread</span>-Objekt aufzubauen, dann über eine JavaBean-Setter-Methode das <span class="clisting">Runnable</span>-Objekt zuzuweisen und anschließend den Thread mit <span class="clisting">start()</span> zu starten.</li>
+</ul>
+<ul class="gp">
+<li>Wird <span class="clisting">start()</span> auf dem <span class="clisting">Thread</span>-Objekt zweimal aufgerufen, so führt der zweite Aufruf zu einer Ausnahme. Ein erzeugter Thread kann also ein <span class="clisting">Runnable</span> duch zweimaliges Aurufen von <span class="clisting">start()</span> nicht gleich zweimal abarbeiten. Für eine erneute Abarbeitung eines <span class="clisting">Runnable</span> ist also mit unseren bisherigen Mitteln immer ein neues <span class="clisting">Thread</span>-Objekt nötig.</li>
+</ul>
+<ul class="gp">
+<li>Der Thread beginnt mit der Abarbeitung des Programmcodes vom <span class="clisting">Runnable</span> sofort nach dem Aufruf von <span class="clisting">start()</span>. Die Implementierung vom <span class="clisting">Runnable</span> selbst müsste geändert werden, wenn der Programmcode nicht sofort, sondern später (nächste Tagesschau) oder wiederholt (immer Weihnachten) ausgeführt werden soll.</li>
+</ul>
+<p>Wünschenswert ist eine Abstraktion, die das Ausführen des <span class="clisting">Runnable</span>-Programmcodes von der technischen Realisierung (etwa den Threads) trennt.</p><a id="mjfdf7295f7b164c526b7e2bcc93c82c77" name="mjfdf7295f7b164c526b7e2bcc93c82c77"></a><a name="t31"></a><br><div align="center"><a href="#top"><img src="common/top.gif" border="0" alt="Rheinwerk Computing - Zum Seitenanfang"></a></div><a name="t2t32"></a><h3 class="t3"><span class="cfett">14.4.1</span> Die Schnittstelle »Executor«  <a href="#t2t33"><img src="common/down.gif" width="15" height="15" border="0" alt="Zur nächsten Überschrift"></a><a href="#t2t31"><img src="common/top.gif" width="15" height="15" border="0" alt="Zur vorigen Überschrift"></a></h3>
+<p>Seit Java 5 gibt es eine Abstraktion für Klassen, die Befehle über <span class="clisting">Runnable</span> ausführen. Die Schnittstelle <span class="clisting">Executor</span> schreibt eine Methode vor:</p><br><table width="100%" border="0" cellspacing="1" cellpadding="3">
+<tr>
+<td class="tabellentext">
+<div class="listing"><pre class="prettyprint">interface java.util.concurrent.<span class="cfett">Executor</span></pre></div>
+</td>
+</tr>
+</table><br><ul class="gp">
+<li><span class="clisting">void execute( Runnable command )</span>
+Wird später von Klassen implementiert, die ein <span class="clisting">Runnable</span> abarbeiten können.</li>
+</ul>
+<p>Jeder, der nun Befehle über <span class="clisting">Runnable</span> abarbeitet, ist <span class="clisting">Executor</span>.</p>
+<h4 class="t4">Konkrete Executoren</h4>
+<p>Von dieser Schnittstelle gibt es bisher zwei wichtige Implementierungen:</p>
+<ul class="gp">
+<li><span class="clisting">ThreadPoolExecutor</span>. Die Klasse baut eine Sammlung von Threads auf, den Thread-Pool. Ausführungsanfragen werden von den freien Threads übernommen.</li>
+</ul>
+<ul class="gp">
+<li><span class="clisting">ScheduledThreadPoolExecutor</span>. Eine Erweiterung von <span class="clisting">ThreadPoolExecutor</span> um die Fähigkeit, zu bestimmen Zeiten oder mit bestimmten Wiederholungen Befehle abzuarbeiten.</li>
+</ul>
+<p>Die beiden Klassen haben nicht ganz so triviale Konstruktoren, und eine Utility-Klasse vereinfacht den Aufbau dieser speziellen <span class="clisting">Executor</span>-Objekte.</p><br><table width="100%" border="0" cellspacing="1" cellpadding="3">
+<tr>
+<td class="tabellentext">
+<div class="listing"><pre class="prettyprint">class java.util.concurrent.<span class="cfett">Executors</span></pre></div>
+</td>
+</tr>
+</table><br><ul class="gp">
+<li><span class="clisting">static ExecutorService newCachedThreadPool()</span>
+Liefert einen Thread-Pool mit wachsender Größe.</li>
+</ul>
+<ul class="gp">
+<li><span class="clisting">static ExecutorService newFixedThreadPool( int nThreads )</span>
+Liefert einen Thread-Pool mit maximal <span class="clisting">nThreads</span>.</li>
+</ul>
+<ul class="gp">
+<li><span class="clisting">static ScheduledExecutorService newSingleThreadScheduledExecutor()</span></li>
+</ul>
+<ul class="gp">
+<li><span class="clisting">static ScheduledExecutorService newScheduledThreadPool( int corePoolSize )</span>
+Gibt spezielle Executor-Objekte zurück, um Wiederholungen festzulegen.</li>
+</ul>
+<div class="bildbox">
+<p><a name="IDA4MOV"></a><a onClick="OpenWin('bilder/executorexectorservice.gif','Abbildung',800,800)"><img border="0" src="bilderklein/kleinexecutorexectorservice.gif" alt="Abbildung"><br><span class="tabunter">Hier klicken, um das Bild zu vergrößern</span></a></p>
+</div>
+<p><span class="clisting">ExecutorService</span> ist eine Schnittstelle, die <span class="clisting">Executor</span> erweitert. Unter anderem sind hier Operationen zu finden, die die Ausführer herunterfahren. Im Falle von Thread-Pools ist das nützlich, da die Threads ja sonst nicht beendet würden, weil sie auf neue Aufgaben warten.</p>
+<div class="bildbox">
+<p><a name="IDAINOV"></a><a onClick="OpenWin('bilder/executorsuml.gif','Abbildung',800,800)"><img border="0" src="bilderklein/kleinexecutorsuml.gif" alt="Abbildung"><br><span class="tabunter">Hier klicken, um das Bild zu vergrößern</span></a></p>
+</div><a id="mje4f944bb971775c1015afd48aaa0f8fd" name="mje4f944bb971775c1015afd48aaa0f8fd"></a><a name="t32"></a><br><div align="center"><a href="#top"><img src="common/top.gif" border="0" alt="Rheinwerk Computing - Zum Seitenanfang"></a></div><a name="t2t33"></a><h3 class="t3"><span class="cfett">14.4.2</span> Die Thread-Pools  <a href="#t2t34"><img src="common/down.gif" width="15" height="15" border="0" alt="Zur nächsten Überschrift"></a><a href="#t2t32"><img src="common/top.gif" width="15" height="15" border="0" alt="Zur vorigen Überschrift"></a></h3>
+<p>Eine wichtige statische Methode der Klasse <span class="clisting">Executors</span> ist <span class="clisting">newCachedThreadPool()</span>. Das Ergebnis ist ein <span class="clisting">ExecutorService</span>-Objekt, eine Implementierung von <span class="clisting">Executor</span> mit der Methode <span class="clisting">execute(Runnable)</span>:</p>
+<p class="tabunter"><strong>Listing 14.10    </strong>com/tutego/insel/thread/concurrent/ThreadPoolDemo.java, main()</p>
+<div class="listing"><pre class="prettyprint">Runnable r1 = new Runnable() {
+  @Override public void run() {
+    System.out.println( "A1 " + Thread.currentThread() );
+    System.out.println( "A2 " + Thread.currentThread() );
+  }
+};
+
+Runnable r2 = new Runnable() {
+  @Override public void run() {
+    System.out.println( "B1 " + Thread.currentThread() );
+    System.out.println( "B2 " + Thread.currentThread() );
+  }
+};</pre></div>
+<p>Jetzt lässt sich der Thread-Pool als <span class="clisting">ExecutorService</span> beziehen und lassen sich die beiden Befehlsobjekte als <span class="clisting">Runnable</span> über <span class="clisting">execute()</span> ausführen:</p>
+<div class="listing"><pre class="prettyprint">ExecutorService executor = Executors.newCachedThreadPool();
+
+executor.execute( r1 );
+executor.execute( r2 );
+
+Thread.sleep( 500 );
+
+executor.execute( r1 );
+executor.execute( r2 );
+
+executor.shutdown();</pre></div>
+<p>Die Ausgabe zeigt sehr schön die Wiederverwendung der Threads:</p>
+<div class="listing"><pre class="prettyprint">A1 Thread[pool-1-thread-1,5,main]
+A2 Thread[pool-1-thread-1,5,main]
+B1 Thread[pool-1-thread-2,5,main]
+B2 Thread[pool-1-thread-2,5,main]
+B1 Thread[pool-1-thread-1,5,main]
+B2 Thread[pool-1-thread-1,5,main]
+A1 Thread[pool-1-thread-2,5,main]
+A2 Thread[pool-1-thread-2,5,main]</pre></div>
+<p>Die <span class="clisting">toString()</span>-Methode von Thread ist so implementiert, dass zunächst der Name der Threads auftaucht, den die Pool-Implementierung gesetzt hat, dann die Priorität und der Name des Threads, der den neuen Thread gestartet hat. Am neuen Namen ist abzulesen, dass hier zwei Threads von einem Thread-Pool 1 verwendet werden: <span class="clisting">thread-1</span> und <span class="clisting">thread-2</span>. Nach dem Ausführen der beiden Aufträge und der kleinen Warterei sind die Threads fertig und für neue Jobs bereit, sodass <span class="clisting">A1</span> und <span class="clisting">A2</span> beim zweiten Mal mit den wieder freien Threads abgearbeitet werden.</p>
+<p>Interessant sind die folgenden drei Operationen zur Steuerung des Pool-Endes:</p><br><table width="100%" border="0" cellspacing="1" cellpadding="3">
+<tr>
+<td class="tabellentext">
+<div class="listing"><pre class="prettyprint">interface java.util.concurrent.<span class="cfett">ExecutorService</span>
+extends Executor</pre></div>
+</td>
+</tr>
+</table><br><ul class="gp">
+<li><span class="clisting">void shutdown()</span>
+Fährt den Thread-Pool herunter. Laufende Threads werden nicht abgebrochen, aber neue Anfragen werden nicht angenommen.</li>
+</ul>
+<ul class="gp">
+<li><span class="clisting">boolean isShutdown()</span>
+Wurde der Executor schon heruntergefahren?</li>
+</ul>
+<ul class="gp">
+<li><span class="clisting">List&lt;Runnable&gt; shutdownNow()</span>
+Gerade ausführende Befehle werden zum Stoppen angeregt. Die Rückgabe ist eine Liste der zu beendenden Kommandos.</li>
+</ul><a id="mj1b2390839194e0171bbe333adf513efb" name="mj1b2390839194e0171bbe333adf513efb"></a><a name="t33"></a><br><div align="center"><a href="#top"><img src="common/top.gif" border="0" alt="Rheinwerk Computing - Zum Seitenanfang"></a></div><a name="t2t34"></a><h3 class="t3"><span class="cfett">14.4.3</span> Threads mit Rückgabe über Callable  <a href="#t2t35"><img src="common/down.gif" width="15" height="15" border="0" alt="Zur nächsten Überschrift"></a><a href="#t2t33"><img src="common/top.gif" width="15" height="15" border="0" alt="Zur vorigen Überschrift"></a></h3>
+<p>Der nebenläufige Thread kann nur über Umwege Ergebnisse zurückgeben. In einer eigenen Klasse, die <span class="clisting">Runnable</span> erweitert, lässt sich im Konstruktor zum Beispiel eine Datenstruktur übergeben, in die der Thread ein berechnetes Ergebnis hineinlegt. Die Datenstruktur kann dann vom Aufrufer auf Änderungen hin untersucht werden.</p>
+<p>Die Java-Bibliothek bietet noch einen anderen Weg, denn während <span class="clisting">run()</span> in <span class="clisting">Runnable</span> als Rückgabe <span class="clisting">void</span> hat, übermittelt <span class="clisting">call()</span> einer anderen Schnittstelle, dem Aufrufer <span class="clisting">Callable</span>, eine Rückgabe. Zum Vergleich:</p><br><table width="100%" border="0" cellspacing="1" cellpadding="3">
+<tr>
+<td class="tabellentext">
+<div class="listing"><pre class="prettyprint">interface java.lang.<span class="cfett">Runnable</span></pre></div>
+<span class="clisting">void run()</span>
+Diese Methode enthält den parallel auszuführenden Programmcode.
+</td>
+<td class="tabellentext">
+<div class="listing"><pre class="prettyprint">interface java.util.concurrent.<span class="cfett">Callable&lt;V&gt;</span></pre></div>
+<span class="clisting">V call()</span>
+Diese Methode enthält den parallel auszuführen-den Programmcode und liefert eine Rückgabe vom Typ <span class="clisting">V</span>.
+</td>
+</tr>
+</table><br><div class="bildbox">
+<p><a name="IDAW0OV"></a><a onClick="OpenWin('bilder/callableuml.gif','Abbildung',800,800)"><img border="0" src="bilderklein/kleincallableuml.gif" alt="Abbildung"><br><span class="tabunter">Hier klicken, um das Bild zu vergrößern</span></a></p>
+</div>
+<h4 class="t4">Felder sortieren über Callable</h4>
+<p>Wir wollen ein Beispiel implementieren, das ein Feld sortiert. Das Sortieren soll ein <span class="clisting">Callable</span> im Hintergrund übernehmen. Ist die Operation beendet, soll der Verweis auf das sortiere Feld zurückgegeben werden. Das Sortieren erledigt wie üblich <span class="clisting">Arrays.sort()</span>:</p>
+<p class="tabunter"><strong>Listing 14.11    </strong>com/tutego/insel/thread/concurrent/CallableDemo.java, SorterCallable</p>
+<div class="listing"><pre class="prettyprint">class SorterCallable implements<span class="cfett"> Callable&lt;byte[]&gt;</span>
+{
+  private final byte[] b;
+
+  SorterCallable( byte[] b )
+  {
+    this.b = b;
+  }
+
+  @Override public<span class="cfett"> byte[] call()</span>
+  {
+    Arrays.sort( b );
+    return b;
+  }
+}</pre></div>
+<p>Natürlich bringt es wenig, das <span class="clisting">Callable</span>-Objekt aufzubauen und selbst <span class="clisting">call()</span> aufzurufen, denn ein Thread soll die Aufgabe im Hintergrund erledigen. Dazu ist jedoch nicht die Klasse <span class="clisting">Thread</span> selbst zu verwenden, sondern ein <span class="clisting">ExecutorService</span>, den wir etwa über <span class="clisting">Executors.newCachedThreadPool()</span> bekommen:</p>
+<p class="tabunter"><strong>Listing 14.12    </strong>com/tutego/insel/thread/concurrent/CallableDemo.java, main() Ausschnitt</p>
+<div class="listing"><pre class="prettyprint">byte[] b = new byte[ 4000000 ];
+new Random().nextBytes( b );<span class="cfett">
+Callable&lt;byte[]&gt; c</span> = new SorterCallable( b );
+ExecutorService executor = Executors.newCachedThreadPool();
+Future&lt;byte[]&gt; result =<span class="cfett"> executor.submit( c )</span>;</pre></div>
+<p>Der <span class="clisting">ExecutorService</span> bietet eine <span class="clisting">submit()</span>-Methode, die das <span class="clisting">Callable</span> annimmt und einen Thread für die Abarbeitung aussucht.</p>
+<h4 class="t4">Erinnerungen an die Zukunft: die Future-Rückgabe</h4>
+<p>Weil das Ergebnis asynchron ankommt, liefert <span class="clisting">submit()</span> ein <span class="clisting">Future</span>-Objekt zurück, über das wir herausfinden können, ob das Ergebnis schon da ist oder ob wir noch warten müssen. Die Operationen im Einzelnen:</p><br><table width="100%" border="0" cellspacing="1" cellpadding="3">
+<tr>
+<td class="tabellentext">
+<div class="listing"><pre class="prettyprint">interface java.util.concurrent.<span class="cfett">Future&lt;V&gt;</span></pre></div>
+</td>
+</tr>
+</table><br><ul class="gp">
+<li><span class="clisting">V get() throws InterruptedException, ExecutionException</span>
+Wartet auf das Ergebnis und gibt es dann zurück. Die Methode blockiert so lange, bis das Ergebnis da ist.</li>
+</ul>
+<ul class="gp">
+<li><span class="clisting">V get( long timeout, TimeUnit unit )
+  throws InterruptedException, ExecutionException, TimeoutException</span>
+Wartet eine gegebene Zeit auf das Ergebnis und gibt es dann zurück. Kommt es in der Zeitschranke nicht, gibt es eine <span class="clisting">TimeoutException</span>.</li>
+</ul>
+<ul class="gp">
+<li><span class="clisting">boolean isDone()</span>
+Wurde die Arbeit beendet oder sogar abgebrochen?</li>
+</ul>
+<ul class="gp">
+<li><span class="clisting">boolean cancel( boolean mayInterruptIfRunning )</span>
+Bricht die Arbeit ab.</li>
+</ul>
+<ul class="gp">
+<li><span class="clisting">boolean isCancelled()</span>
+Wurde die Arbeit vor dem Ende abgebrochen?</li>
+</ul>
+<p>Das Ergebnis von <span class="clisting">submit(Callable)</span> ist also das <span class="clisting">Future</span>-Objekt. Eigentlich ist nach einem <span class="clisting">submit()</span>die beste Zeit, noch andere parallele Aufgaben anzustoßen, um dann später mit <span class="clisting">get()</span> das Ergebnis einzusammeln. Das Programmiermuster ist immer gleich: Erst Arbeit an den <span class="clisting">ExecutorService</span> übergeben, dann etwas anderes machen und später zurückkommen. Da wir in unserem Beispiel jedoch in der Zwischenzeit nichts anderes zu tun haben, als ein Bytefeld zu sortieren, setzen wir das <span class="clisting">Callable</span> ab und warten mit <span class="clisting">get()</span>sofort auf das sortierte Feld:</p>
+<p class="tabunter"><strong>Listing 14.13    </strong>com/tutego/insel/thread/concurrent/CallableDemo.java, main()</p>
+<div class="listing"><pre class="prettyprint">byte[] b = new byte[ 4000000 ];
+new Random().nextBytes( b );
+Callable&lt;byte[]&gt; c = new SorterCallable( b );
+ExecutorService executor = Executors.newCachedThreadPool();
+Future&lt;byte[]&gt;<span class="cfett"> result</span> =<span class="cfett"> executor.submit( c )</span>;
+byte[] bs =<span class="cfett"> result.get</span><span class="cfett">()</span>;
+System.out.printf( "%d, %d, %d%n", bs[0], bs[1], bs[bs.length-1] ); 
+// &#8211;128, &#8211;128, 127</pre></div>
+<p>Da das Feld sortiert ist, und der Wertebereich eines Bytes mit &#8211;128 bis +127 sehr klein ist, ist vermutlich bei 4.000.000 Werten das kleinste Element der Zufallszahlen &#8211;128 und das größte 127.</p><br><table width="100%" border="0" cellspacing="1" cellpadding="3">
+<tr>
+<td class="tabellentext">
+<p class="BStandard"><span class="cfett">Beispiel   </span>Nicht immer ist das potenziell unendliche Blockieren erwünscht. Für diesen Fall ermöglicht die überladene Methode von <span class="clisting">get()</span> eine Parametrisierung mit einer Wartezeit und Zeiteinheit:</p>
+<div class="listing"><pre class="prettyprint">byte[] bs = result.get( 2, TimeUnit.SECONDS );</pre></div>
+<p class="BStandard">Ist das Ergebnis nicht innerhalb von zwei Sekunden verfügbar, löst die Methode eine <span class="clisting">TimeoutException</span> aus, die so aussehen wird:</p>
+<div class="listing"><pre class="prettyprint">java.util.concurrent.TimeoutException
+  at java.util.concurrent.FutureTask$Sync.innerGet(FutureTask.java:228)
+  at java.util.concurrent.FutureTask.get(FutureTask.java:91)
+  at com.tutego.insel.thread.concurrent.CallableDemo.main(CallableDemo.java:27)</pre></div>
+</td>
+</tr>
+</table><br><h4 class="t4">Ein Runnable mit Zukunft oder als Callable</h4>
+<p>Aus Gründen der Symmetrie gibt es neben <span class="clisting">submit(Callable)</span> noch zwei <span class="clisting">submit()</span>-Methoden, die ebenfalls ein <span class="clisting">Runnable</span> annehmen. Zusammen ergeben sich:</p><br><table width="100%" border="0" cellspacing="1" cellpadding="3">
+<tr>
+<td class="tabellentext">
+<div class="listing"><pre class="prettyprint">interface java.util.concurrent.<span class="cfett">ExecutorService</span>
+extends Executor</pre></div>
+</td>
+</tr>
+</table><br><ul class="gp">
+<li><span class="clisting">&lt;T&gt; Future&lt;T&gt; submit( Callable&lt;T&gt; task )</span>
+Der <span class="clisting">ExecutorService</span> soll die Aufgabe abarbeiten und Zugriff auf das Ergebnis über die Rückgabe geben.</li>
+</ul>
+<ul class="gp">
+<li><span class="clisting">Future&lt;?&gt; submit( Runnable task )</span>
+Der <span class="clisting">ExecutorService</span> arbeitet das <span class="clisting">Runnable</span> ab und ermöglicht es, über das <span class="clisting">Future</span>-Objekt zu erfragen, ob die Ausgabe schon abgearbeitet wurde oder nicht. <span class="clisting">get()</span> liefert am Ende <span class="clisting">null</span>.</li>
+</ul>
+<ul class="gp">
+<li><span class="clisting">&lt;T&gt; Future&lt;T&gt; submit( Runnable task, T result )</span>
+Wie <span class="clisting">submit(task)</span>, nur: Die <span class="clisting">get()</span>-Anfrage über <span class="clisting">Future</span> liefert <span class="clisting">result</span>.</li>
+</ul>
+<p>Zum Umbau eines <span class="clisting">Runnable</span> in ein <span class="clisting">Callable</span> gibt es noch einige Hilfsmethoden in der Klasse <span class="clisting">Executors</span>. Dazu zählen die statische Methode <span class="clisting">callable(Runnable task)</span>, die ein <span class="clisting">Callable&lt;Object&gt;</span> liefert und die Methode <span class="clisting">callable(Runnable task, T result)</span>, die ein <span class="clisting">Callable&lt;T&gt;</span> zurückgibt.</p><a id="mj216a6d7dc56854a7c2ace2af15ea7538" name="mj216a6d7dc56854a7c2ace2af15ea7538"></a><a name="t34"></a><br><div align="center"><a href="#top"><img src="common/top.gif" border="0" alt="Rheinwerk Computing - Zum Seitenanfang"></a></div><a name="t2t35"></a><h3 class="t3"><span class="cfett">14.4.4</span> Mehrere Callable abarbeiten  <a href="#t2t36"><img src="common/down.gif" width="15" height="15" border="0" alt="Zur nächsten Überschrift"></a><a href="#t2t34"><img src="common/top.gif" width="15" height="15" border="0" alt="Zur vorigen Überschrift"></a></h3>
+<p>Die Methode <span class="clisting">submit()</span>vom <span class="clisting">ExecutorService</span> nimmt genau ein <span class="clisting">Callable</span> an und führt es aus.</p>
+<ul class="gp">
+<li><span class="clisting">&lt;T&gt; Future&lt;T&gt; submit( Callable&lt;T&gt; task )</span></li>
+</ul>
+<p>Muss eine Anwendung mehrere <span class="clisting">Callable</span> abarbeiten, kann es natürlich mehrere Aufrufe von <span class="clisting">submit()</span> geben. Doch ein <span class="clisting">ExecutorService</span> kann von sich aus mehrere <span class="clisting">Callable</span> abarbeiten. Dabei gibt es zwei Varianten:</p>
+<ul class="gp">
+<li>Alle <span class="clisting">Callable</span> einer Liste werden ausgeführt, und das Ergebnis ist eine Liste von <span class="clisting">Future</span>-Objekten oder</li>
+</ul>
+<ul class="gp">
+<li>alle <span class="clisting">Callable</span> einer Liste werden ausgeführt doch der erste, der mit der Arbeit fertig wird, ergibt das Resultat.</li>
+</ul>
+<p>Das macht zwei Methoden, und da sie zusätzlich noch mit einer Zeitbeschränkung kommen, sind es vier:</p><br><table width="100%" border="0" cellspacing="1" cellpadding="3">
+<tr>
+<td class="tabellentext">
+<div class="listing"><pre class="prettyprint">interface java.util.concurrent.<span class="cfett">ExecutorService</span>
+extends Executor</pre></div>
+</td>
+</tr>
+</table><br><ul class="gp">
+<li><span class="clisting">&lt;T&gt; List&lt;Future&lt;T&gt;&gt; invokeAll( Collection&lt;? extends Callable&lt;T&gt;&gt; tasks )</span>
+  <span class="clisting">throws InterruptedException</span>
+Führt alle Ausgaben aus. Liefert eine Liste von <span class="clisting">Future</span>-Objekten, die die Ergebnisse repräsentieren.</li>
+</ul>
+<ul class="gp">
+<li><span class="clisting">&lt;T&gt; List&lt;Future&lt;T&gt;&gt; invokeAll( Collection&lt;? extends Callable&lt;T&gt;&gt; tasks,</span>
+                 <span class="clisting">long timeout, TimeUnit unit ) throws InterruptedException</span>
+Führt alle Ausgaben aus und wird die Ergebnisse als Liste von <span class="clisting">Future</span>-Objekten liefern, solange die Zeit <span class="clisting">timeout</span> in der gegebenen Zeiteinheit nicht überschritten wird.</li>
+</ul>
+<ul class="gp">
+<li><span class="clisting">&lt;T&gt; T invokeAny( Collection&lt;? extends Callable&lt;T&gt;&gt; tasks )</span>
+  <span class="clisting">throws InterruptedException, ExecutionException</span>
+Führt alle Aufgaben aus, aber liefert das Ergebnis eines Ausführers, der als Erster fertig ist. Ein <span class="clisting">get()</span> wird also nie warten müssen.</li>
+</ul>
+<ul class="gp">
+<li><span class="clisting">&lt;T&gt; T invokeAny( Collection&lt;? extends Callable&lt;T&gt;&gt; tasks,</span>
+             <span class="clisting">long timeout, TimeUnit unit )</span>
+  <span class="clisting">throws InterruptedException, ExecutionException, TimeoutException</span>
+Führt alle Aufgaben aus, gilt aber nur eine beschränkte Zeit. Das erste Ergebnis eines <span class="clisting">Callable</span>-Objekts, das in der Zeit fertig wird, gibt <span class="clisting">invokeAny()</span> zurück.</li>
+</ul><a id="mj040a06e4da6875dc988daed0e6698a0e" name="mj040a06e4da6875dc988daed0e6698a0e"></a><a name="t35"></a><br><div align="center"><a href="#top"><img src="common/top.gif" border="0" alt="Rheinwerk Computing - Zum Seitenanfang"></a></div><a name="t2t36"></a><h3 class="t3"><span class="cfett">14.4.5</span> Mit ScheduledExecutorService wiederholende Ausgaben 
+und Zeitsteuerungen  <img src="common/15x15leer.gif" width="15" height="15" border="0" alt="top"><a href="#t2t35"><img src="common/top.gif" width="15" height="15" border="0" alt="Zur vorigen Überschrift"></a></h3>
+<p>Die Klasse <span class="clisting">ScheduledThreadPoolExecutor</span> ist eine weitere Klasse neben <span class="clisting">ThreadPoolExecutor</span>, die die Schnittstellen <span class="clisting">Executor</span> und <span class="clisting">ExecutorService</span> implementiert. Die wichtige Schnittstelle, die diese Klasse außerdem implementiert, ist aber <span class="clisting">ScheduledExecutorService</span> &#8211; sie schreibt <span class="clisting">scheduleXXX()</span>-Operationen vor, um ein <span class="clisting">Runnable</span> oder <span class="clisting">Callable</span> zu bestimmten Zeiten und Wiederholungen auszuführen (zwar gibt es mit dem <span class="clisting">java.util.Timer</span> etwas Ähnliches, doch der <span class="clisting">ScheduledThreadPoolExecutor</span> nutzt Threads aus dem Pool).</p>
+<p>Das folgende Beispiel führt nach einer Startzeit von einer Sekunde alle zwei Sekunden eine Ausgabe aus:</p>
+<p class="tabunter"><strong>Listing 14.14    </strong>com/tutego/insel/thread/concurrent/ScheduledExecutorServiceDemo.java. main()</p>
+<div class="listing"><pre class="prettyprint">ScheduledExecutorService scheduler = Executors.newScheduledThreadPool( 1 );
+scheduler.scheduleAtFixedRate(
+    new Runnable() {
+      @Override public void run() {
+        System.out.println( "Tata" );
+      }
+    },
+    1 /* Startverzögerung */,
+    2 /* Dauer */,
+    TimeUnit.SECONDS );</pre></div>
+<p>Nach einer Sekunde Startverzögerung bekommen wir jede zweite Sekunde ein »Tata«.</p><br><hr><a name="kommentar"></a><h3>Ihr Kommentar</h3>
+                       Wie hat Ihnen das &lt;openbook&gt; gefallen? Wir freuen uns immer über Ihre freundlichen und kritischen Rückmeldungen.
+                       <!--<form action="http://www.galileo-press.de/feedback/openbook" method="post" style="text-align: center; margin-top: 10px;"><input type="hidden" name="openbookurl" value="javainsel9/.htm"><input type="hidden" name="buchtitel" value="Java ist auch eine Insel"><input type="hidden" name="Kapitel" value="14.4 Der Ausführer (Executor) kommt"><table border="0">
+<tr>
+<td><label for="name">Name</label><br></td>
+<td><input type="text" name="name" id="name" size="40"><br></td>
+</tr>
+<tr>
+<td><label for="email">E-Mail</label><br></td>
+<td><input type="text" name="email" id="email" size="40"><br></td>
+</tr>
+<tr>
+<td valign="top"><label for="comment">Ihr Kommentar</label><br></td>
+<td><textarea name="comment" id="comment" rows="10" cols="40"></textarea><br></td>
+</tr>
+<tr>
+<td>
+</td>
+<td><input type="submit" value="Kommentar absenden"></td>
+</tr>
+</table>
+</form>--><a href="https://www.rheinwerk-verlag.de/feedback/produkt/2254/">>> Zum Feedback-Formular</a>
+</div></td>
+</tr>
+</table></td>
+</tr>
+<tr>
+<td width="100%" class="start" colspan="1" height="22" align="center"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="25%"><a href="javainsel_14_003.htm" class="navnav"> &lt;&lt;   zurück</a></td>
+<td width="49%"><div align="center"><a class="navnav" href="#">&lt;top&gt;</a></div></td>
+<td align="right" width="25%"><div align="right"><a href="javainsel_14_005.htm" class="navnav">vor   &gt;&gt; </a></div></td>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<div>
+<td>
+<td width="10" valign="top"></td>
+<td width="160" valign="top">
+<table border="0" cellpadding="0" cellspacing="0" width="160">
+<!--<tr>
+<td>
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+<tr>
+<td class="start" height="20" colspan="2">
+&nbsp;<a href="https://www.rheinwerk-verlag.de/?GPP=openbook" class="autor">
+<strong>Zum Katalog</strong></a>
+</td>
+</tr>
+<tr>
+<td valign="top" class="tbl4" width="2">
+<img src="common/leer.gif" border="0" height="1" width="1"></td>
+<td valign="top">
+<table cellspacing="3">
+<tr>
+<td><a href="https://www.rheinwerk-verlag.de/java-ist-auch-eine-insel_2672/?GPP=openbook">
+<img src="common/1802.gif" width="131" height="167" border="0" align="left" hspace="4" vspace="8" alt="Zum Katalog: Java ist auch eine Insel" title="Zum Katalog: Java ist auch eine Insel">
+<br><br><br><br><br><br><strong>Java ist auch eine Insel</strong><br><img src="common/pfeil_rechts5.gif" border="0" alt="">Jetzt bestellen</a><br /><br />
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td><img src="common/leer.gif" height="2" width="1" border="0" /></img></td>
+</tr>-->
+<tr>
+<td>
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+<tr>
+<td class="start" height="20" colspan="2"><span class="autor"><strong>&nbsp;Ihre Meinung?</strong></a></td>
+</tr>
+<tr>
+<td valign="top" class="tbl4" width="2"><img src="common/leer.gif" border="0" height="1" width="1"></td>
+<td valign="top">
+<table cellspacing="3">
+<tr>
+<td>Wie hat Ihnen das &lt;openbook&gt; gefallen?<br><a href="#kommentar"><img src="common/pfeil_rechts5.gif" border="0" alt="">Ihre Meinung</a>
+<br><br></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td><img src="common/leer.gif" height="2" width="1" border="0" /></img></td>
+</tr>
+<tr>
+<td>
+</td>
+</tr>
+<tr>
+<td><img src="common/leer.gif" height="2" width="1" border="0" /></img></td>
+</tr>
+<tr>
+<td>
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+<tr>
+<td class="start" height="20" colspan="2">&nbsp;<a href="https://www.rheinwerk-verlag.de/?GPP=openbook" class="autor"><strong>Buchempfehlungen</strong></a></td>
+</tr>
+<tr>
+<td valign="top" class="tbl4" width="2"><img src="common/leer.gif" border="0" height="1" width="1"></td><td valign="top">
+<a href="https://www.rheinwerk-verlag.de/java-ist-auch-eine-insel_3606/?GPP=openbook">
+<img src="common/2873.gif" width="78" height="100" border="0" align="left" hspace="4" vspace="8" alt="Zum Katalog: Java ist auch eine Insel"><br><br><br><br><br><br><br>&nbsp;Java ist auch<br>&nbsp;eine Insel</a><br><br></td>
+</tr>
+<tr>
+<td valign="top" class="tbl4" width="2"><img src="common/leer.gif" border="0" height="1" width="1"></td><td valign="top">
+<a href="https://www.rheinwerk-verlag.de/java-se-8-standard-bibliothek_3607/?GPP=openbook">
+<img src="common/2874.gif" width="78" height="100" border="0" align="left" hspace="4" vspace="8" alt="Zum Katalog: Java SE Bibliotheken"><br><br><br><br><br><br><br>&nbsp;Java SE Bibliotheken</a><br><br></td>
+</tr>
+<tr>
+<td valign="top" class="tbl4" width="2"><img src="common/leer.gif" border="0" height="1" width="1"></td><td valign="top">
+<a href="https://www.rheinwerk-verlag.de/professionell-entwickeln-mit-java-ee7_3250/?GPP=openbook">
+<img src="common/2004.gif" width="78" height="100" border="0" align="left" hspace="4" vspace="8" alt="Zum Katalog: Professionell entwickeln mit Java EE 7"><br><br><br><br><br><br><br>&nbsp;Professionell<br>&nbsp;entwickeln mit<br>&nbsp;Java EE 7</a><br><br></td>
+</tr>
+<tr>
+<td valign="top" class="tbl4" width="2"><img src="common/leer.gif" border="0" height="1" width="1"></td><td valign="top">
+<a href="https://www.rheinwerk-verlag.de/einstieg-in-eclipse_3654/?GPP=openbook">
+<img src="common/2958.gif" width="69" height="100" border="0" align="left" hspace="4" vspace="8" alt="Zum Katalog: Einstieg in Eclipse"><br><br><br><br><br><br><br>&nbsp;Einstieg in<br>&nbsp;Eclipse</a><br><br></td>
+</tr>
+<tr>
+<td valign="top" class="tbl4" width="2"><img src="common/leer.gif" border="0" height="1" width="1"></td><td valign="top">
+<a href="https://www.rheinwerk-verlag.de/java-8_3610/?GPP=openbook">
+<img src="common/2881.gif" width="72" height="100" border="0" align="left" hspace="4" vspace="8" alt="Zum Katalog: Einstieg in Java"><br><br><br><br><br><br><br>&nbsp;Einstieg in<br>&nbsp;Java</a><br><br></td>
+</tr>
+</table></td>
+</tr>
+<tr>
+<td><img src="common/leer.gif" height="2" width="1" border="0" /></img></td>
+</tr>
+<tr>
+<td>
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+<tr>
+<td class="start" height="20" colspan="2"><span class="autor"><strong>&nbsp;Shopping</strong></span></td>
+</tr>
+<tr>
+<td valign="top" class="tbl4" width="2"><img src="common/leer.gif" border="0" height="1" width="1"></td>
+<td valign="top">
+<table cellspacing="3">
+<tr>
+<td><b>Versandkostenfrei</b> bestellen in Deutschland und &Ouml;sterreich<br><a href="https://www.rheinwerk-verlag.de/hilfe/bestellung_6?GPP=openbook"><img src="common/pfeil_rechts5.gif" border="0" alt="Info">Info</a><br><br></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table><br><br><hr width="70%" align="center">
+<div align="center">
+<p class="standard"><strong>Copyright © Rheinwerk Verlag GmbH 2011</strong><br>
+        Für Ihren privaten Gebrauch dürfen Sie die Online-Version natürlich ausdrucken.
+        Ansonsten unterliegt das &lt;openbook&gt; denselben Bestimmungen, wie die
+        gebundene Ausgabe: Das Werk einschließlich aller seiner Teile ist urheberrechtlich
+        geschützt. Alle Rechte vorbehalten einschließlich der Vervielfältigung, Übersetzung,
+        Mikroverfilmung sowie Einspeicherung und Verarbeitung in elektronischen Systemen.</p><br/><a href="https://www.rheinwerk-verlag.de/nutzungsbedingungen/?GPP=openbook">Nutzungsbestimmungen</a> | <a href="https://www.rheinwerk-verlag.de/datenschutz/?GPP=openbook">Datenschutz</a> | <a href="https://www.rheinwerk-verlag.de/impressum/?GPP=openbook">Impressum</a><br><br>
+      Rheinwerk Verlag GmbH, Rheinwerkallee 4, 53227 Bonn, Tel.: 0228.42150.0, Fax 0228.42150.77, <a href="mailto:service@rheinwerk-verlag.de">service@rheinwerk-verlag.de</a><br><br><a class="show-consent-banner">Cookie-Einstellungen ändern</a></div><br><br></body>
+</html>
